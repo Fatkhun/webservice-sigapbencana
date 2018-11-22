@@ -20,26 +20,37 @@ class UserController extends Controller
 
         // Validate all input fields
         $this->validate($request, [
-            'nama'  => 'required|string',
-            'email' => 'required|string',
-            'password' => 'required|string'
+            'email'     => 'required|string',
+            'password'  => 'required|string',
+            'role_id'   => 'required',
         ]);
-        $hasher = app()->make('hash');
-        $username = $request->input('nama');
-        $email = $request->input('email');
-        $user = User::where('email', $email)->first();
+        $hasher     = app()->make('hash');
+        $nama       = $request->input('nama');
+        $email      = $request->input('email');
+        $roleId     = $request->input('role_id');
+        $user       = User::where('email', $email)->first();
+        
         if ($user) {
-            $res['success'] = false;
-            $res['message'] = 'Email sudah digunakan!';
-            $res['result'] = null;
+            $res['success']     = false;
+            $res['message']     = 'Email sudah digunakan!';
+            $res['result']      = null;
             return response()->json($res);
         }else{
             $password = $hasher->make($request->input('password'));
             $register = User::create([
-                'nama'=> $username,
-                'email'=> $email,
-                'password'=> $password,
+                'email'     => $email,
+                'password'  => $password,
+                'role_id'   => $roleId
             ]);
+            
+            if($roleId == '1'){
+                
+            }else if($roleId == '2'){
+
+            }else if($roleId == '3'){
+                
+            }
+
             if ($register) {
                 $res['success'] = true;
                 $res['message'] = 'Berhasil daftar akun';

@@ -17,7 +17,6 @@ class CreateUsersTable extends Migration
             $table->increments('id');
             $table->string('role_id')->foreign('role_id')
                 ->references('id')->on('tabel_users_role')->default(1);
-            $table->string('nama');
             $table->string('email', 100)->unique();
             $table->string('password');
             $table->string('api_token');
