@@ -17,15 +17,27 @@ $app->get('/', function (){
 	return response($res);
 });
 
-// routes user
+# Android and Web #
+
+// user
 $app->post('/user/login', 'UserController@login');
+$app->post('/user/update/password', ['middleware' => 'auth', 'uses' =>  'UserController@updatePassword']);
+
+# Android only #
+$app->get('/user/{id}', 'UserController@showUser');
+
+# Web only #
+
+// user
 $app->post('/user/register', 'UserController@register');
 $app->get('/user/index', 'UserController@showAllUser');
 $app->get('/user/destroy/{id}', 'UserController@destroyUser');
 $app->post('/user/update/profile/{id}', ['middleware' => 'auth', 'uses' =>  'UserController@updateUserProfile']);
-$app->post('/user/update/password', ['middleware' => 'auth', 'uses' =>  'UserController@updatePassword']);
-$app->get('/user/{id}', 'UserController@showUser');
-//end routes user
+
+
+
+
+
 
 
 
