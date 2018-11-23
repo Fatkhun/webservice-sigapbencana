@@ -13,14 +13,14 @@ class Bencana extends Model
     ];
 
     public static $validation_role = [
-        'alamat' => 'required',
-        'luka_luka' => 'required',
-        'belum_ditemukan' => 'required',
-        'mengungsi' => 'required',
-        'meninggal' => 'required',
-        'users_id' => 'required',
-        'kategori_id' => 'required',
-        'status_id' => 'required'
+        'alamat' => 'required|string',
+        'luka_luka' => 'required|string',
+        'belum_ditemukan' => 'required|string',
+        'mengungsi' => 'required|string',
+        'meninggal' => 'required|string',
+        'users_id' => 'required|string',
+        'kategori_id' => 'required|string',
+        'status_id' => 'required|string'
     ];
 
     public function image_bencana(){

@@ -11,6 +11,10 @@ class StatusBencana extends Model
         'nama'
     ];
 
+    public static $validation_role = [
+        'nama' => 'required|string',
+    ];
+
     public function bencana(){
         return $this->hasMany(Bencana::class, 'status_id');
     }
