@@ -11,6 +11,10 @@ class UsersRole extends Model
         'nama'
     ];
 
+    public static $validation_role = [
+        'nama' => 'required|string'
+    ];
+
     public function user(){
         return $this->hasMany(User::class, 'role_id');
     }

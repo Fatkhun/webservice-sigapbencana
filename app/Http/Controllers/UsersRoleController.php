@@ -10,7 +10,7 @@ class UsersRoleController extends Controller
 {
     public function store(Request $request){
         $form   = $request->all();
-        $roles  = UsersRole::$validation_roles;
+        $roles  = UsersRole::$validation_role;
 
         $process    = new BaseCrud(new UsersRole());
         $res        = $process->create($form, $roles);
