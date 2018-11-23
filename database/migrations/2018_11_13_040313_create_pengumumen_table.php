@@ -15,6 +15,7 @@ class CreatePengumumenTable extends Migration
     {
         Schema::create('tabel_pengumuman', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('judul');
             $table->text('deskripsi');
             $table->string('kondisi_id')->foreign('kondisi_id')
                     ->references('id')->on('tabel_kondisi_bencana')->default(1);

@@ -8,12 +8,13 @@ class Pengumuman extends Model
 {
     protected $table = "tabel_pengumuman";
     protected $fillables = [
-        'deskripsi', 'kondisi_id'
+        'judul','deskripsi', 'kondisi_id'
     ];
 
     public static $validation_role = [
-        'deskripsi' => 'required',
-        'kondisi_id' => 'required'
+        'judul' => 'required|string',
+        'deskripsi' => 'required|string',
+        'kondisi_id' => 'required|string'
     ];
 
     public function kondisi_bencana(){
