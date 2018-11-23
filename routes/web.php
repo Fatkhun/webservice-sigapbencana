@@ -27,12 +27,20 @@ $app->post('/user/update/password', ['middleware' => 'auth', 'uses' =>  'UserCon
 $app->get('/user/{id}', 'UserController@showUser');
 // Bencana
 $app->post('/bencana/create/lapor', 'BencanaController@create');
+$app->post('/bencana/update/lapor/{id}', 'BencanaController@update');
+$app->get('/bencana/delete/lapor/{id}', 'BencanaController@delete');
 // Kategori Bencana
 $app->post('/bencana/create/kategori', 'KategoriBencanaController@create');
+$app->post('/bencana/update/kategori/{id}', 'KategoriBencanaController@update');
+$app->get('/bencana/delete/kategori/{id}', 'KategoriBencanaController@delete');
 // Kondisi Bencana
 $app->post('/bencana/create/kondisi', 'KondisiBencanaController@create');
+$app->post('/bencana/update/kondisi/{id}', 'KondisiBencanaController@update');
+$app->get('/bencana/delete/kondisi/{id}', 'KondisiBencanaController@delete');
 // Status Bencana
 $app->post('/bencana/create/status', 'StatusBencanaController@create');
+$app->post('/bencana/update/status/{id}', 'StatusBencanaController@update');
+$app->post('/bencana/delete/status/{id}', 'StatusBencanaController@delete');
 
 # Web only #
 
