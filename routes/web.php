@@ -17,6 +17,12 @@ $app->get('/', function (){
 	return response($res);
 });
 
+# Base
+// role_users
+$app->post('/role/create', 'UsersRoleController@store');
+
+
+
 # Android and Web #
 
 // user

@@ -6,6 +6,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use App\User;
+use App\Model\UsersRole;
+use App\Model\Lurah;
+use App\Model\AdminSar;
+use App\Model\AdminBPBD;
+use App\Model\Operation\BaseCrud;
 use Auth;
 
 class UserController extends Controller
@@ -43,15 +48,27 @@ class UserController extends Controller
                 'role_id'   => $roleId
             ]);
             
-            if($roleId == '1'){
-                
-            }else if($roleId == '2'){
-
-            }else if($roleId == '3'){
-                
-            }
+            
 
             if ($register) {
+                if($roleId == '1'){
+                    $lurah = Lurah::create([
+                        ''
+                    ]);
+                }else if($roleId == '2'){
+                    $adminSar = AdminSar::create([
+                        'nama'      => $nama,
+                        'user_id'   => $register->id
+                    ]);
+                }else if($roleId == '3'){
+                    $adminSar = AdminBPBD::create([
+                        'nama'  => $nama,
+                        'user_id'   => $register->id
+                    ]);
+                }
+
+
+
                 $res['success'] = true;
                 $res['message'] = 'Berhasil daftar akun';
                 $res['result'] = $register;
