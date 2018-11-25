@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Lurah extends Model
 {
     protected $table = "tabel_lurah";
-    protected $fillables = [
+    protected $fillable = [
         'nama', 'periode', 'alamat', 'image', 'desa_id', 'user_id'
     ];
 

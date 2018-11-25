@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class ImageBencana extends Model
 {
     protected $table = "tabel_image_bencana";
-    protected $fillables = [
+    protected $fillable = [
         'path',
         'bencana_id'
     ];

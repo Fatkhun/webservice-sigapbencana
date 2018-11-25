@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class AdminSar extends Model
 {
     protected $table = "tabel_admin_sar";
-    protected $fillables = [
+    protected $fillable = [
         'nama',
         'user_id'
     ];

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Desa extends Model
 {
     protected $table = "tabel_desa";
-    protected $fillables = [
+    protected $fillable = [
         'nama', 'kabupaten_id'
     ];
 

@@ -52,8 +52,17 @@ class UserController extends Controller
 
             if ($register) {
                 if($roleId == '1'){
+                    $desaId = $request->input('desa_id');
+                    $periode = $request->input('periode');
+                    $alamat = $request->input('alamat');
+                    $image = '/asset/img/lurah.png';
                     $lurah = Lurah::create([
-                        ''
+                        'nama'      => $nama,
+                        'periode'   => $periode,
+                        'image'     => $image,
+                        'alamat'    => $alamat,
+                        'desa_id'   => $desaId,
+                        'user_id'   => $register->id
                     ]);
                 }else if($roleId == '2'){
                     $adminSar = AdminSar::create([
@@ -61,17 +70,13 @@ class UserController extends Controller
                         'user_id'   => $register->id
                     ]);
                 }else if($roleId == '3'){
-                    $adminSar = AdminBPBD::create([
+                    $adminBPBD = AdminBPBD::create([
                         'nama'  => $nama,
                         'user_id'   => $register->id
                     ]);
                 }
-
-
-
                 $res['success'] = true;
                 $res['message'] = 'Berhasil daftar akun';
-                $res['result'] = $register;
                 return response()->json($res);
             }else{
                 $res['success'] = false;
@@ -107,9 +112,17 @@ class UserController extends Controller
                 $create_token = User::where('id', $login->id)->update(['api_token' => $api_token]);
                 if ($create_token) {
                     $userLogin = User::where('id', $login->id)->first();
+                    if($userLogin->role_id == '1'){
+                        $relasi = Lurah::where('user_id', $userLogin->id)->first();
+                    }else if($userLogin->role_id == '2'){
+                        $relasi = AdminSar::where('user_id', $userLogin->id)->first();
+                    }else{
+                        $relasi = AdminBPBD::where('user_id', $userLogin->id)->first();
+                    }
                     $res['success'] = true;
                     $res['message'] = 'Berhasil login';
-                    $res['user'] = $userLogin;
+                    $res['user']    = $userLogin;
+                    $res['detail']  = $relasi;
                     return response()->json($res);
                 }else {
                     $res['success'] = false;

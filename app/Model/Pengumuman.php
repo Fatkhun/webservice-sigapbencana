@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Pengumuman extends Model
 {
     protected $table = "tabel_pengumuman";
-    protected $fillables = [
+    protected $fillable = [
         'judul','deskripsi', 'kondisi_id'
     ];
 

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class StatusBencana extends Model
 {
     protected $table = "tabel_status_bencana";
-    protected $fillables = [
+    protected $fillable = [
         'nama'
     ];
 

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class AdminBPBD extends Model
 {
     protected $table = "tabel_admin_bpbd";
-    protected $fillables = [
+    protected $fillable = [
         'nama',
         'user_id'
     ];
