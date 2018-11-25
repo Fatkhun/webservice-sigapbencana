@@ -32,9 +32,10 @@ $app->post('/user/update/password', ['middleware' => 'auth', 'uses' =>  'UserCon
 # Android only #
 $app->get('/user/{id}', 'UserController@showUser');
 // Bencana
-$app->post('/bencana/create/lapor', 'BencanaController@create');
-$app->post('/bencana/update/lapor/{id}', 'BencanaController@update');
-$app->get('/bencana/delete/lapor/{id}', 'BencanaController@delete');
+$app->post('/bencana/lapor', 'BencanaController@create');
+$app->post('/bencana/monitor', 'BencanaController@update');
+$app->get('/bencana/delete/{id}', 'BencanaController@delete');
+
 // Kategori Bencana
 $app->post('/bencana/create/kategori', 'KategoriBencanaController@create');
 $app->post('/bencana/update/kategori/{id}', 'KategoriBencanaController@update');
@@ -52,7 +53,7 @@ $app->post('/bencana/delete/status/{id}', 'StatusBencanaController@delete');
 
 // user
 $app->post('/user/register', 'UserController@register');
-$app->get('/user/index', 'UserController@showAllUser');
+// $app->get('/user/all', 'UserController@showAllUser');
 $app->get('/user/destroy/{id}', 'UserController@destroyUser');
 $app->post('/user/update/profile/{id}', ['middleware' => 'auth', 'uses' =>  'UserController@updateUserProfile']);
 
