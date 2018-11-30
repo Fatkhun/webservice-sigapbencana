@@ -49,11 +49,11 @@ $app->post('/bencana/create/status', 'StatusBencanaController@create');
 $app->post('/bencana/update/status/{id}', 'StatusBencanaController@update');
 $app->post('/bencana/delete/status/{id}', 'StatusBencanaController@delete');
 
+
 # Web only #
 
 // user
 $app->post('/user/register', 'UserController@register');
-// $app->get('/user/all', 'UserController@showAllUser');
 $app->get('/user/destroy/{id}', 'UserController@destroyUser');
 $app->post('/user/update/profile/{id}', ['middleware' => 'auth', 'uses' =>  'UserController@updateUserProfile']);
 
