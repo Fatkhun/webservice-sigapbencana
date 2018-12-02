@@ -57,11 +57,16 @@ $app->post('/user/register', 'UserController@register');
 $app->get('/user/destroy/{id}', 'UserController@destroyUser');
 $app->post('/user/update/profile/{id}', ['middleware' => 'auth', 'uses' =>  'UserController@updateUserProfile']);
 
+// berita
 $app->post('/bencana/berita/create', 'BeritaController@create');
 $app->post('/bencana/berita/update/{id}', 'BeritaController@update');
 $app->get('/bencana/berita/delete/{id}', 'BeritaController@delete');
 $app->get('/bencana/berita/detail/{id}', 'BeritaController@detail');
 
+// pengumuman
+$app->post('/bencana/pengumuman/create', 'PengumumanController@create');
+$app->post('/bencana/pengumuman/update/{id}', 'PengumumanController@update');
+$app->get('/bencana/pengumuman/delete/{id}', 'PengumumanController@delete');
 
 
 
