@@ -24,4 +24,15 @@ class Desa extends Model
         return $this->hasMany(Lurah::class, 'desa_id');
     }
 
+    public static function boot()
+    {
+        parent::boot();    
+    
+        // cause a delete of a desa to cascade to children so they are also deleted
+        static::deleted(function($desa)
+        {
+            $desa->lurah()->delete();
+        });
+    }
+
 }

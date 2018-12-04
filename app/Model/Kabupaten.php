@@ -14,4 +14,15 @@ class Kabupaten extends Model
     public function desa(){
         return $this->hasMany(Desa::class, 'kabupaten_id');
     }
+
+    public static function boot()
+    {
+        parent::boot();    
+    
+        // cause a delete of a kabupaten to cascade to children so they are also deleted
+        static::deleted(function($kabupaten)
+        {
+            $kabupaten->desa()->delete();
+        });
+    }
 }

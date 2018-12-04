@@ -5,6 +5,8 @@ namespace App;
 use Illuminate\Auth\Authenticatable;
 use Laravel\Lumen\Auth\Authorizable;
 use Illuminate\Database\Eloquent\Model;
+use App\Model\Lurah;
+use App\Model\Bencana;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 
@@ -48,6 +50,18 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     }
 
     public function bencana(){
-        return $this->hasMany(Bencana::class,'user_id');
+        return $this->hasMany(Bencana::class,'users_id');
+    }
+
+    public static function boot()
+    {
+        parent::boot();    
+    
+        // cause a delete of a user to cascade to children so they are also deleted
+        static::deleted(function($user)
+        {
+            $user->lurah()->delete();
+            $user->bencana()->delete();
+        });
     }
 }

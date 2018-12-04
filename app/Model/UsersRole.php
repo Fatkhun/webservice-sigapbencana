@@ -18,4 +18,15 @@ class UsersRole extends Model
     public function user(){
         return $this->hasMany(User::class, 'role_id');
     }
+
+    public static function boot()
+    {
+        parent::boot();    
+    
+        // cause a delete of a role to cascade to children so they are also deleted
+        static::deleted(function($role)
+        {
+            $role->user()->delete();
+        });
+    }
 }

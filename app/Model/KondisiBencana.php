@@ -18,4 +18,15 @@ class KondisiBencana extends Model
     public function bencana(){
         return $this->hasMany(Bencana::class, 'kondisi_id');
     }
+
+    public static function boot()
+    {
+        parent::boot();    
+    
+        // cause a delete of a kondisi to cascade to children so they are also deleted
+        static::deleted(function($kondisi)
+        {
+            $kondisi->bencana()->delete();
+        });
+    }
 }

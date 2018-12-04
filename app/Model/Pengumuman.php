@@ -24,4 +24,15 @@ class Pengumuman extends Model
     public function pengumuman_desa(){
         return $this->hasMany(PengumumanDesa::class, 'pengumuman_id');
     }
+
+    public static function boot()
+    {
+        parent::boot();    
+    
+        // cause a delete of a pengumuman to cascade to children so they are also deleted
+        static::deleted(function($pengumuman)
+        {
+            $pengumuman->pengumuman_desa()->delete();
+        });
+    }
 }
