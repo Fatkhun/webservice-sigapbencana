@@ -9,6 +9,7 @@ use App\User;
 use App\Model\UsersRole;
 use App\Model\Lurah;
 use App\Model\AdminSar;
+use App\Model\Kabupaten;
 use App\Model\AdminBPBD;
 use App\Model\Operation\BaseCrud;
 use Auth;
@@ -20,8 +21,7 @@ class UserController extends Controller
      *
      * @param $request Request
      */
-    public function register(Request $request)
-    {
+    public function register(Request $request){
 
         // Validate all input fields
         $this->validate($request, [
@@ -38,7 +38,6 @@ class UserController extends Controller
         if ($user) {
             $res['success']     = false;
             $res['message']     = 'Email sudah digunakan!';
-            $res['result']      = null;
             return response()->json($res);
         }else{
             $password = $hasher->make($request->input('password'));
@@ -91,8 +90,7 @@ class UserController extends Controller
      *
      * When user success login will retrive callback as api_token
      */
-    public function login(Request $request)
-    {
+    public function login(Request $request){
         // Validate all input fields
         $this->validate($request, [
             'email' => 'required|string',
@@ -101,28 +99,24 @@ class UserController extends Controller
         $hasher = app()->make('hash');
         $email = $request->input('email');
         $password = $request->input('password');
-        $login = User::where('email', $email)->first();
-        if (!$login) {
+
+        $user = User::where('email', $email)->first();
+        
+        if (!$user) {
             $res['success'] = false;
             $res['message'] = 'Password atau email salah!';
             return response()->json($res);
         }else{
-            if ($hasher->check($password, $login->password) ) {
+            if ($hasher->check($password, $user->password) ) {
                 $api_token = sha1(time());
-                $create_token = User::where('id', $login->id)->update(['api_token' => $api_token]);
+                $create_token = User::where('id', $user->id)->update(['api_token' => $api_token]);
                 if ($create_token) {
-                    $userLogin = User::where('id', $login->id)->first();
-                    if($userLogin->role_id == '1'){
-                        $relasi = Lurah::where('user_id', $userLogin->id)->first();
-                    }else if($userLogin->role_id == '2'){
-                        $relasi = AdminSar::where('user_id', $userLogin->id)->first();
-                    }else{
-                        $relasi = AdminBPBD::where('user_id', $userLogin->id)->first();
-                    }
+                    $user = $this->getDetail($user);
+
                     $res['success'] = true;
                     $res['message'] = 'Berhasil login';
-                    $res['user']    = $userLogin;
-                    $res['detail']  = $relasi;
+                    $res['data']    = $user;
+                    
                     return response()->json($res);
                 }else {
                     $res['success'] = false;
@@ -138,18 +132,16 @@ class UserController extends Controller
     }
 
 
-    /**
-     * Get user by id
-     *
-     * URL /user/{id}
-     */
-    public function showUser(Request $request, $id)
-    {
-        $user = User::where('id', $id)->get();
+    
+    public function showUser(Request $request, $id){
+        $user = User::where('id', $id)->first();
+        
         if ($user) {
+            $user = $this->getDetail($user);
+
             $res['success'] = true;
             $res['message'] = 'Data ditemukan';
-            $res['result'] = $user;
+            $res['data'] = $user;
             return response()->json($res);
         }else{
             $res['success'] = false;
@@ -159,13 +151,17 @@ class UserController extends Controller
     }
 
 
-    // show all user
-    public function showAllUser(Request $request){
-      $users = User::all();
-      if ($users) {
+    public function getUserKabupaten(Request $request, $id){
+        $kabupaten = Kabupaten::with(
+                                ['desa'=> function($query){
+                                            return $query->with('lurah')->get();
+                                        }
+                                ]
+                    )->where('id', $id)->get();
+      if ($kabupaten) {
           $res['success'] = true;
           $res['message'] = 'Data ditemukan';
-          $res['result'] = $users;
+          $res['data'] = $kabupaten;
           return response()->json($res);
       }else{
           $res['success'] = false;
@@ -174,7 +170,6 @@ class UserController extends Controller
       }
     }
 
-    // update user by id
     public function updateUserProfile(Request $request, $id){
       $updateUser = User::where('id', $id)->first();
       $updateUser->nama = $request->input('nama');
@@ -183,7 +178,7 @@ class UserController extends Controller
       if ($updateUser) {
         $res['success'] = true;
         $res['message'] = 'Berhasil update data';
-        $res['result'] = $updateUser;
+        $res['data'] = $updateUser;
         return response()->json($res);
       }else{
         $res['success'] = false;
@@ -192,9 +187,7 @@ class UserController extends Controller
       }
     }
 
-    // change password
     public function updatePassword(Request $request){
-      // Validate all input fields
       $this->validate($request, [
           'old_password'          => 'required',
           'password'              => 'required',
@@ -224,12 +217,24 @@ class UserController extends Controller
       if ($destroyUser) {
         $res['success'] = true;
         $res['message'] = 'Berhasil menghapus data';
-        $res['result'] = $destroyUser;
         return response()->json($res);
       }else{
         $res['success'] = false;
         $res['message'] = 'Gagal menghapus data!';
         return response()->json($res);
       }
+    }
+
+
+    public function getDetail($user){
+        if($user->role_id == '1'){
+            $user = User::with(['lurah'])->where('id', $user->id)->get();
+        }else if($user->role_id == '2'){
+            $user = User::with(['admin_sar'])->where('id', $user->id)->get();
+        }else{
+            $user = User::with(['admin_bpbd'])->where('id', $user->id)->get();
+        }
+
+        return $user;
     }
 }

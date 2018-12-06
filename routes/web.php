@@ -56,6 +56,7 @@ $app->post('/bencana/delete/status/{id}', 'StatusBencanaController@delete');
 $app->post('/user/register', 'UserController@register');
 $app->get('/user/destroy/{id}', 'UserController@destroyUser');
 $app->post('/user/update/profile/{id}', ['middleware' => 'auth', 'uses' =>  'UserController@updateUserProfile']);
+$app->get('/user/profile/{id}', 'UserController@showUser');
 
 // berita
 $app->post('/bencana/berita/create', 'BeritaController@create');
@@ -69,4 +70,6 @@ $app->post('/bencana/pengumuman/update/{id}', 'PengumumanController@update');
 $app->get('/bencana/pengumuman/delete/{id}', 'PengumumanController@delete');
 
 
+// Lurah
+$app->get('/user/kabupaten/{id}', 'UserController@getUserKabupaten');
 

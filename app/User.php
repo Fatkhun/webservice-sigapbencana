@@ -6,6 +6,8 @@ use Illuminate\Auth\Authenticatable;
 use Laravel\Lumen\Auth\Authorizable;
 use Illuminate\Database\Eloquent\Model;
 use App\Model\Lurah;
+use App\Model\AdminSar;
+use App\Model\AdminBPBD;
 use App\Model\Bencana;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
@@ -49,6 +51,14 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         return $this->hasOne(Lurah::class,'user_id');
     }
 
+    public function admin_sar(){
+        return $this->hasOne(AdminSar::class,'user_id');
+    }
+
+    public function admin_bpbd(){
+        return $this->hasOne(AdminBPBD::class,'user_id');
+    }
+
     public function bencana(){
         return $this->hasMany(Bencana::class,'users_id');
     }
@@ -61,6 +71,8 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         static::deleted(function($user)
         {
             $user->lurah()->delete();
+            $user->admin_sar()->delete();
+            $user->admin_bpbd()->delete();
             $user->bencana()->delete();
         });
     }
