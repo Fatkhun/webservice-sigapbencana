@@ -15,6 +15,8 @@ class KondisiBencana extends Model
         'nama' => 'required|string',
     ];
 
+    protected $hidden = array('created_at', 'updated_at');
+
     public function bencana(){
         return $this->hasMany(Bencana::class, 'kondisi_id');
     }

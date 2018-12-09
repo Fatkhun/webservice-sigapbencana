@@ -35,4 +35,10 @@ class KategoriBencanaController extends Controller
         $res = $process->delete($id);
         return response()->json($res);
     }
+
+    public function getAll(Request $request){
+        $process  = new BaseCrud(new KategoriBencana());
+        $res      = $process->findAll();
+        return response()->json($res);
+    }
 }

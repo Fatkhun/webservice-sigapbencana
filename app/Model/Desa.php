@@ -16,6 +16,8 @@ class Desa extends Model
         'kabupaten_id' => 'required'
     ];
 
+    protected $hidden = array('created_at', 'updated_at', 'kabupaten_id');
+
     public function kabupaten(){
         return $this->belongsTo(Kabupaten::class, 'kabupaten_id', 'id');
     }

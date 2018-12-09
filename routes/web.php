@@ -40,17 +40,25 @@ $app->get('/bencana/delete/{id}', 'BencanaController@delete');
 $app->post('/bencana/create/kategori', 'KategoriBencanaController@create');
 $app->post('/bencana/update/kategori/{id}', 'KategoriBencanaController@update');
 $app->get('/bencana/delete/kategori/{id}', 'KategoriBencanaController@delete');
+$app->get('/kategori', 'KategoriBencanaController@getAll');
 // Kondisi Bencana
 $app->post('/bencana/create/kondisi', 'KondisiBencanaController@create');
 $app->post('/bencana/update/kondisi/{id}', 'KondisiBencanaController@update');
 $app->get('/bencana/delete/kondisi/{id}', 'KondisiBencanaController@delete');
+$app->get('/kondisi', 'KondisiBencanaController@getAll');
 // Status Bencana
 $app->post('/bencana/create/status', 'StatusBencanaController@create');
 $app->post('/bencana/update/status/{id}', 'StatusBencanaController@update');
 $app->post('/bencana/delete/status/{id}', 'StatusBencanaController@delete');
-
+$app->get('/status', 'StatusBencanaController@getAll');
 
 # Web only #
+
+# kabupaten
+$app->get('/kabupaten', 'KabupatenController@getAll');
+
+# Desa
+$app->get('/desa/{id}', 'KabupatenController@getDesa');
 
 // user
 $app->post('/user/register', 'UserController@register');

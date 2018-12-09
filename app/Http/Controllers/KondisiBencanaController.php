@@ -35,4 +35,10 @@ class KondisiBencanaController extends Controller
         $res = $process->delete($id);
         return response()->json($res);
     }
+
+    public function getAll(Request $request){
+        $process  = new BaseCrud(new KondisiBencana());
+        $res      = $process->findAll();
+        return response()->json($res);
+    }
 }

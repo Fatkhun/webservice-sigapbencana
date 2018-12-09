@@ -11,6 +11,8 @@ class Kabupaten extends Model
         'nama'
     ];
 
+    protected $hidden = array('created_at', 'updated_at');
+
     public function desa(){
         return $this->hasMany(Desa::class, 'kabupaten_id');
     }
