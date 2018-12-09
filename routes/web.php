@@ -13,9 +13,14 @@
 
 $app->get('/', function (){
 	$res['success'] = true;
-	$res['result'] = "Hello there welcome to web api using lumen 5.3.x!";
+	$res['result'] = "Selamat Datang di Web Service Aplikasi Sigap Bencana";
 	return response($res);
 });
+
+# dummy data
+# $app->get('/dummy/lurah', 'LurahController@dummy');
+
+
 
 # Base
 // role_users

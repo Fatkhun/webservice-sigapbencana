@@ -17,6 +17,8 @@ class AdminBPBD extends Model
         'user_id' => 'required'
     ];
 
+    protected $hidden = array('created_at', 'updated_at');
+
     public function user(){
         return $this->belongsTo(User::class, 'user_id', 'id');
     }  

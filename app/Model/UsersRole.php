@@ -15,6 +15,8 @@ class UsersRole extends Model
         'nama' => 'required|string'
     ];
 
+    protected $hidden = array('created_at', 'updated_at');
+
     public function user(){
         return $this->hasMany(User::class, 'role_id');
     }

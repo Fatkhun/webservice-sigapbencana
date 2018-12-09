@@ -16,6 +16,8 @@ class PengumumanDesa extends Model
         'desa_id' => 'required'
     ];
 
+    protected $hidden = array('created_at', 'updated_at');
+
     public function pengumuman(){
         return $this->belongsTo(Pengumuman::class, 'pengumuman_id', 'id');
     }

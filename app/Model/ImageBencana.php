@@ -17,6 +17,8 @@ class ImageBencana extends Model
         'bencana_id' => 'required'
     ];
 
+    protected $hidden = array('created_at', 'updated_at');
+
     public function bencana(){
         return $this->belongsTo(Bencana::class, 'bencana_id', 'id');
     }
