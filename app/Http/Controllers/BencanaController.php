@@ -26,7 +26,7 @@ class BencanaController extends Controller
         $process    = new BaseCrud(new Bencana());
         $resBencana = $process->createGetId($form, $roles); 
         
-        return response()->json($resBencana);
+        return response()->json($form);
     }
 
     // monitor

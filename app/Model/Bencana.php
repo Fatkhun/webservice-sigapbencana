@@ -3,6 +3,7 @@
 namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
+use App\User;
 
 class Bencana extends Model
 {
@@ -27,6 +28,10 @@ class Bencana extends Model
         return $this->hasMany(ImageBencana::class, 'bencana_id');
     }
 
+    public function berita(){
+        return $this->hasMany(Berita::class, 'bencana_id');
+    }
+
     public function user(){
         return $this->belongsTo(User::class, 'users_id', 'id');
     }
@@ -47,6 +52,7 @@ class Bencana extends Model
         static::deleted(function($bencana)
         {
             $bencana->image_bencana()->delete();
+            $berita->berita()->delete();
         });
     }  
 }

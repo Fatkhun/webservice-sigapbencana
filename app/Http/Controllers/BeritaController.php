@@ -38,20 +38,15 @@ class BeritaController extends Controller
     }
 
     public function detail(Request $request, $id){
-        $berita     = new BaseCrud(new Berita());
-        $resBerita  = $berita->findById($id);
-
-        $bencana    = new BaseCrud(new Bencana());
-        $resBencana = $bencana->findById($resBerita['bencana_id']);
-
-        $image      = new BaseCrud(new ImageBencana());
-        $resImage   = $image->findWhere(['bencana_id' => $resBerita['bencana_id']]);
-        $res = [
-            'berita'    => $resBerita,
-            'bencana'   => $resBencana,
-            'image'     => $resImage
-        ];
-
-        return response()->json($res);
+        $berita     = Berita::with(
+            ['bencana' => function($query){
+                return $query->with(
+                    ['user' => function($query){
+                        return $query->with('admin_sar')->get();
+                }, 'image_bencana'=> function($query){
+                        return $query->with('image_bencana')->get();
+                }])->get();
+            }])->where('id', $id)->get();
+        return response()->json($berita);
     }
 }
