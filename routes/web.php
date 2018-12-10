@@ -22,42 +22,10 @@ $app->get('/', function (){
 
 
 
-# Base
-// role_users
+### Master ###
+
+# role_users
 $app->post('/role/create', 'UsersRoleController@store');
-
-
-
-# Android and Web #
-
-// user
-$app->post('/user/login', 'UserController@login');
-$app->post('/user/update/password', ['middleware' => 'auth', 'uses' =>  'UserController@updatePassword']);
-
-# Android only #
-$app->get('/user/{id}', 'UserController@showUser');
-// Bencana
-$app->post('/bencana/lapor', 'BencanaController@create');
-$app->post('/bencana/monitor', 'BencanaController@update');
-$app->get('/bencana/delete/{id}', 'BencanaController@delete');
-
-// Kategori Bencana
-$app->post('/bencana/create/kategori', 'KategoriBencanaController@create');
-$app->post('/bencana/update/kategori/{id}', 'KategoriBencanaController@update');
-$app->get('/bencana/delete/kategori/{id}', 'KategoriBencanaController@delete');
-$app->get('/kategori', 'KategoriBencanaController@getAll');
-// Kondisi Bencana
-$app->post('/bencana/create/kondisi', 'KondisiBencanaController@create');
-$app->post('/bencana/update/kondisi/{id}', 'KondisiBencanaController@update');
-$app->get('/bencana/delete/kondisi/{id}', 'KondisiBencanaController@delete');
-$app->get('/kondisi', 'KondisiBencanaController@getAll');
-// Status Bencana
-$app->post('/bencana/create/status', 'StatusBencanaController@create');
-$app->post('/bencana/update/status/{id}', 'StatusBencanaController@update');
-$app->post('/bencana/delete/status/{id}', 'StatusBencanaController@delete');
-$app->get('/status', 'StatusBencanaController@getAll');
-
-# Web only #
 
 # kabupaten
 $app->get('/kabupaten', 'KabupatenController@getAll');
@@ -65,23 +33,50 @@ $app->get('/kabupaten', 'KabupatenController@getAll');
 # Desa
 $app->get('/desa/{id}', 'KabupatenController@getDesa');
 
+# Kategori Bencana
+$app->post('/kategori/create', 'KategoriBencanaController@create');
+$app->post('/kategori/update/{id}', 'KategoriBencanaController@update');
+$app->get('/kategori/delete/{id}', 'KategoriBencanaController@delete');
+$app->get('/kategori', 'KategoriBencanaController@getAll');
+
+# Kondisi Bencana
+$app->post('/kondisi/create', 'KondisiBencanaController@create');
+$app->post('/kondisi/update/{id}', 'KondisiBencanaController@update');
+$app->get('/kondisi/delete/{id}', 'KondisiBencanaController@delete');
+$app->get('/kondisi', 'KondisiBencanaController@getAll');
+
+# Status Bencana
+$app->post('/status/create', 'StatusBencanaController@create');
+$app->post('/status/update/{id}', 'StatusBencanaController@update');
+$app->get('/status/delete/{id}', 'StatusBencanaController@delete');
+$app->get('/status', 'StatusBencanaController@getAll');
+
+
+
 // user
+$app->post('/user/login', 'UserController@login');
+$app->post('/user/update/password', ['middleware' => 'auth', 'uses' =>  'UserController@updatePassword']);
+$app->get('/user/detail/{id}', 'UserController@showUser');
 $app->post('/user/register', 'UserController@register');
-$app->get('/user/destroy/{id}', 'UserController@destroyUser');
-$app->post('/user/update/profile/{id}', ['middleware' => 'auth', 'uses' =>  'UserController@updateUserProfile']);
-$app->get('/user/profile/{id}', 'UserController@showUser');
+$app->get('/user/delete/{id}', 'UserController@destroyUser');
+$app->post('/user/update/{id}', ['middleware' => 'auth', 'uses' =>  'UserController@updateUserProfile']);
+
+// Bencana
+$app->post('/bencana/lapor', 'BencanaController@create');
+$app->post('/bencana/monitor', 'BencanaController@update');
+$app->get('/bencana/delete/{id}', 'BencanaController@delete');
 
 // berita
-$app->post('/bencana/berita/create', 'BeritaController@create');
-$app->post('/bencana/berita/update/{id}', 'BeritaController@update');
-$app->get('/bencana/berita/delete/{id}', 'BeritaController@delete');
-$app->get('/bencana/berita/detail/{id}', 'BeritaController@detail');
+$app->post('/berita/create', 'BeritaController@create');
+$app->post('/berita/update/{id}', 'BeritaController@update');
+$app->get('/berita/delete/{id}', 'BeritaController@delete');
+$app->get('/berita/detail/{id}', 'BeritaController@detail');
+$app->get('/berita', 'BeritaController@getAll');
 
 // pengumuman
-$app->post('/bencana/pengumuman/create', 'PengumumanController@create');
-$app->post('/bencana/pengumuman/update/{id}', 'PengumumanController@update');
-$app->get('/bencana/pengumuman/delete/{id}', 'PengumumanController@delete');
-
+$app->post('/pengumuman/create', 'PengumumanController@create');
+$app->post('/pengumuman/update/{id}', 'PengumumanController@update');
+$app->get('/pengumuman/delete/{id}', 'PengumumanController@delete');
 
 // Lurah
 $app->get('/user/kabupaten/{id}', 'UserController@getUserKabupaten');

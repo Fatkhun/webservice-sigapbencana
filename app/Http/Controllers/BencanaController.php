@@ -10,6 +10,14 @@ use App\Model\Operation\BaseCrud;
 
 class BencanaController extends Controller
 {
+
+    public function dummy(){
+        for ($i=1; $i <= 2000; $i++){
+            
+        }
+    }
+
+
     // create
     public function create(Request $request){
         $form   = $request->all();

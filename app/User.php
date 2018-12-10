@@ -40,8 +40,9 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      * @var array
      */
     protected $hidden = [
-        'password'
+        'password', 'created_at', 'updated_at'
     ];
+
 
     public function users_role(){
         return $this->belongsTo(UsersRole::class,'role_id', 'id');
