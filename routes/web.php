@@ -19,7 +19,7 @@ $app->get('/', function (){
 
 # dummy data
 # $app->get('/dummy/lurah', 'LurahController@dummy');
-
+$app->get('/dummy/bencana', 'BencanaController@dummy');
 
 
 ### Master ###
@@ -65,6 +65,12 @@ $app->post('/user/update/{id}', ['middleware' => 'auth', 'uses' =>  'UserControl
 $app->post('/bencana/lapor', 'BencanaController@create');
 $app->post('/bencana/monitor', 'BencanaController@update');
 $app->get('/bencana/delete/{id}', 'BencanaController@delete');
+$app->get('/bencana/detail/{id}', 'BencanaController@getDetail');
+$app->get('/bencana/all', 'BencanaController@getAll');
+$app->get('/bencana/terbaru', 'BencanaController@getLaporanTerbaru');
+$app->get('/bencana/statistik/bulan', 'BencanaController@getStatistikBulan');
+$app->get('/bencana/statistik/tahun', 'BencanaController@getStatistikTahun');
+$app->get('/bencana/data/tahun', 'BencanaController@getDataBencanaTahun');
 
 // berita
 $app->post('/berita/create', 'BeritaController@create');
