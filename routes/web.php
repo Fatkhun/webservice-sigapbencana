@@ -71,6 +71,8 @@ $app->get('/bencana/terbaru', 'BencanaController@getLaporanTerbaru');
 $app->get('/bencana/statistik/bulan', 'BencanaController@getStatistikBulan');
 $app->get('/bencana/statistik/tahun', 'BencanaController@getStatistikTahun');
 $app->get('/bencana/data/tahun', 'BencanaController@getDataBencanaTahun');
+$app->get('/bencana/jumlah/{kategori}/{kabupaten}/{tahun}', 'BencanaController@jumlahBencana');
+$app->get('/bencana/rekap/{kabupaten}/{tahun}', 'BencanaController@rekap');
 
 // berita
 $app->post('/berita/create', 'BeritaController@create');

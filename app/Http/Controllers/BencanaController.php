@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\Model\Desa;
 use App\Model\Bencana;
+use App\Model\Lurah;
 use App\Model\ImageBencana;
 use App\Model\KategoriBencana;
 use App\Model\Operation\BaseCrud;
@@ -273,9 +275,66 @@ class BencanaController extends Controller
     public function jumlahBencana(Request $request, $kategori, $kabupaten, $tahun){
         
         $data = [];
-        
+        $desa = Desa::where('kabupaten_id', $kabupaten)->get();
+        // $lurah = Lurah::whereIn('desa_id', $desa->id);
 
-        return response()->json($data);
+        for ($i=0; $i < count($desa); $i++){
+            $bencana = Bencana::where('created_at', 'like', $tahun.'%')
+            ->where('kategori_id', $kategori)
+            ->where('users_id', $desa[$i]->id)
+            ->count();
+
+            $data = $this->arrayPush($data, $desa[$i]->nama, $bencana);
+        }
+
+        $res = [
+            'success'   => true,
+            'data'      => $data
+        ];
+
+        return response()->json($res);
+
+    }
+
+    public function rekap(Request $request, $kabupaten, $tahun){
+        $desa = Desa::where('kabupaten_id', $kabupaten)->get();
+        $kategori = KategoriBencana::get();
+
+        $dataDesa = [];
+        for($i=0; $i< count($desa); $i++){
+            array_push($dataDesa, $desa[$i]->id);
+        }
+        $dataKategori = [];
+        for ($i=0; $i < count($kategori); $i++){
+            $dataCount = [];
+            $lukaCount = 0;
+            $mengungsiCount = 0;
+            $meninggalCount = 0;
+            $bencana = Bencana::where('created_at', 'like', $tahun.'%')
+                            ->where('kategori_id', $kategori[$i]->id)
+                            ->whereIn('users_id', $dataDesa)
+                            ->get();
+
+            for($k=0; $k < count($bencana); $k++){
+                $lukaCount += $bencana[$k]->luka_luka;
+                $mengungsiCount += $bencana[$k]->mengungsi;
+                $meninggalCount += $bencana[$k]->meninggal; 
+            }
+
+            $dataCount = $this->arrayPush($dataCount, 'kejadian', count($bencana));
+            $dataCount = $this->arrayPush($dataCount, 'luka', $lukaCount);
+            $dataCount = $this->arrayPush($dataCount, 'mengungsi', $mengungsiCount);
+            $dataCount = $this->arrayPush($dataCount, 'meninggal', $meninggalCount);
+                
+            $dataKategori = $this->arrayPush($dataKategori, $kategori[$i]->nama, $dataCount);
+        }
+
+        $res = [
+            'success'   => true,
+            'data'      => $dataKategori
+        ];
+
+        return response()->json($res);
     }
 
     public function arrayPush($array, $key, $value){
