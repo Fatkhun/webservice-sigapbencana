@@ -107,32 +107,57 @@ class BencanaController extends Controller
     }
 
     // monitor
-    public function update(Request $request) {
-        $form   = $request->all();
-        $roles  = Bencana::$validation_role;
-        $id     = $request->input('bencana_id');
+    public function update(Request $request, $id) {
+        $bencana = Bencana::where('id', $id)->first();
+        $res = [];
 
-        unset($roles['alamat']);
-        unset($roles['users_id']);
-        unset($roles['kategori_id']);      
-        unset($form['image1']);
-        unset($form['image2']);
-        unset($form['image3']);
-        unset($form['bencana_id']);
-        $process    = new BaseCrud(new Bencana());
-        $resUpdate        = $process->update($form, $roles, $id);
+        $luka = $request->input('luka_luka');
+        $belum     = $request->input('belum_ditemukan');
+        $mengungsi = $request->input('mengungsi');
+        $meninggal = $request->input('meninggal');
+        $status    = $request->input('status_id');
 
         $image1 = $request->file('image1');
         $image2 = $request->file('image2');
         $image3 = $request->file('image3');
-        $image = [$image1, $image2, $image3];
-        
-        if($resUpdate){
-            for($i=0; $i<count($image); $i++){
-                $res = $this->addImage($id, $image[$i]);
+
+        if($bencana != null){
+            $bencanaUpdate = Bencana::where('id', $id)
+                            ->update([
+                                'belum_ditemukan' => $belum,
+                                'luka_luka' => $luka,
+                                'mengungsi' => $mengungsi,
+                                'meninggal' => $meninggal,
+                                'status_id' => $status
+                            ]);
+
+            if($bencanaUpdate){
+                if($image1 != null){
+                    $this->addImage($id, $image1);
+                }
+                if($image2 != null){
+                    $this->addImage($id, $image2);
+                }
+                if($image3 != null){
+                    $this->addImage($id, $image3);
+                }
+                $res = [
+                    'success' => true,
+                    'message' => 'Monitoring Berhasil'
+                ];
             }
+            
+            
+
+            
+        }else{
+            $res = [
+                'success' => false,
+                'message' => 'Data tidak ditemukan'
+            ];
         }
-        return response()->json($res);
+        return response()->json($luka);
+        
     }
 
     public function addImage($bencanaId, $image){
@@ -308,6 +333,7 @@ class BencanaController extends Controller
         for ($i=0; $i < count($kategori); $i++){
             $dataCount = [];
             $lukaCount = 0;
+            $belumCount= 0;
             $mengungsiCount = 0;
             $meninggalCount = 0;
             $bencana = Bencana::where('created_at', 'like', $tahun.'%')
@@ -317,11 +343,13 @@ class BencanaController extends Controller
 
             for($k=0; $k < count($bencana); $k++){
                 $lukaCount += $bencana[$k]->luka_luka;
+                $belumCount     += $bencana[$k]->belum_ditemukan; 
                 $mengungsiCount += $bencana[$k]->mengungsi;
                 $meninggalCount += $bencana[$k]->meninggal; 
             }
 
             $dataCount = $this->arrayPush($dataCount, 'kejadian', count($bencana));
+            $dataCount = $this->arrayPush($dataCount, 'belum_ditemukan', $belumCount);
             $dataCount = $this->arrayPush($dataCount, 'luka', $lukaCount);
             $dataCount = $this->arrayPush($dataCount, 'mengungsi', $mengungsiCount);
             $dataCount = $this->arrayPush($dataCount, 'meninggal', $meninggalCount);

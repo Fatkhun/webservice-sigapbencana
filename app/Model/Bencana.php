@@ -10,7 +10,7 @@ class Bencana extends Model
     protected $table = "tabel_bencana";
     protected $fillable = [
         'alamat', 'luka_luka', 'belum_ditemukan', 'mengungsi', 'meninggal'
-        , 'users_id', 'kategori_id', 'status_id', 'created_at', 'updated_at'
+        , 'users_id', 'kategori_id', 'status_id',
     ];
 
     public static $validation_role = [

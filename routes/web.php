@@ -63,7 +63,7 @@ $app->post('/user/update/{id}', ['middleware' => 'auth', 'uses' =>  'UserControl
 
 // Bencana
 $app->post('/bencana/lapor', 'BencanaController@create');
-$app->post('/bencana/monitor', 'BencanaController@update');
+$app->post('/bencana/monitor/{id}', 'BencanaController@update');
 $app->get('/bencana/delete/{id}', 'BencanaController@delete');
 $app->get('/bencana/detail/{id}', 'BencanaController@getDetail');
 $app->get('/bencana/all', 'BencanaController@getAll');
