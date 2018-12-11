@@ -41,11 +41,7 @@ class BeritaController extends Controller
         $berita     = Berita::with(
             ['bencana' => function($query){
                 return $query->with(
-                    ['user' => function($query){
-                        return $query->with('admin_sar')->get();
-                }, 'image_bencana'=> function($query){
-                        return $query->with('image_bencana')->get();
-                }])->get();
+                    ['image_bencana'])->get();
             }])->where('id', $id)->get();
         return response()->json($berita);
     }
